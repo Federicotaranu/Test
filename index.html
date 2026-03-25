@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="styles/animations.css" />
 
     <!-- Component styles (added by later beads) -->
-    <!-- <link rel="stylesheet" href="styles/nav.css" /> -->
+    <link rel="stylesheet" href="styles/nav.css" />
     <link rel="stylesheet" href="styles/hero.css" />
     <link rel="stylesheet" href="styles/products.css" />
     <!-- <link rel="stylesheet" href="styles/features.css" /> -->
@@ -25,7 +25,74 @@
          ============================================= -->
     <header id="site-header" role="banner">
       <nav id="main-nav" aria-label="Main navigation">
-        <!-- Populated by nav component (nav.html / js/nav.js) -->
+
+        <div class="nav__inner">
+
+          <!-- ── Logo ──────────────────────────────────────── -->
+          <a href="/" class="nav__logo" aria-label="Apple">
+            <svg class="nav__logo-icon" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 814 1000" aria-hidden="true" focusable="false">
+              <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 405.6 0 279.2 0 158.3 0 56.9 39.2 8.8 103.2 8.8c57.6 0 101.5 40.8 148.6 40.8 45.3 0 93.5-43.1 157.5-43.1 61.4 0 149.4 40.8 202.6 114.9zm-158.2-78.8c27.1-36.3 46.3-87.2 46.3-138.2 0-7.1-.6-14.3-1.9-20.1-43.8 1.6-96.1 29.2-128.5 66.3-23.4 26.5-45.6 77-45.6 128.5 0 7.7 1.3 15.5 1.9 17.8 3.2.6 8.4 1.3 13.6 1.3 38.5 0 87-25.8 114.2-55.6z"/>
+            </svg>
+          </a>
+
+          <!-- ── Primary nav links ─────────────────────────── -->
+          <ul class="nav__links" id="nav-links" role="list">
+            <li><a href="#" class="nav__link">Mac</a></li>
+            <li><a href="#" class="nav__link">iPhone</a></li>
+            <li><a href="#" class="nav__link">iPad</a></li>
+            <li><a href="#" class="nav__link">Watch</a></li>
+            <li><a href="#" class="nav__link">AirPods</a></li>
+            <li><a href="#" class="nav__link">TV &amp; Home</a></li>
+            <li><a href="#" class="nav__link">Only on Apple</a></li>
+            <li><a href="#" class="nav__link">Accessories</a></li>
+            <li><a href="#" class="nav__link">Support</a></li>
+          </ul>
+
+          <!-- ── Utility icons ─────────────────────────────── -->
+          <div class="nav__actions">
+            <!-- Search -->
+            <button class="nav__icon-btn" aria-label="Search apple.com">
+              <svg class="nav__icon" xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+                <path d="M16.5 15.44l-3.74-3.74a6.5 6.5 0 1 0-1.06 1.06l3.74 3.74 1.06-1.06zM3 7.5a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0z"/>
+              </svg>
+            </button>
+
+            <!-- Shopping bag -->
+            <button class="nav__icon-btn" aria-label="Shopping bag">
+              <svg class="nav__icon" xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+                <path d="M15.5 6h-2a4.5 4.5 0 0 0-9 0h-2A1.5 1.5 0 0 0 1 7.5v8A1.5 1.5 0 0 0 2.5 17h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 15.5 6zM9 2a2.5 2.5 0 0 1 2.5 4h-5A2.5 2.5 0 0 1 9 2zm6 13.5h-12v-8h1.5V9a.75.75 0 0 0 1.5 0V7.5h6V9a.75.75 0 0 0 1.5 0V7.5H15v8z"/>
+              </svg>
+            </button>
+
+            <!-- Hamburger (mobile only) -->
+            <button class="nav__hamburger" id="nav-hamburger"
+                    aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+              <span class="nav__hamburger-bar"></span>
+              <span class="nav__hamburger-bar"></span>
+              <span class="nav__hamburger-bar"></span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- ── Mobile dropdown overlay ───────────────────── -->
+        <div class="nav__mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+          <ul class="nav__mobile-links" role="list">
+            <li><a href="#" class="nav__mobile-link">Mac</a></li>
+            <li><a href="#" class="nav__mobile-link">iPhone</a></li>
+            <li><a href="#" class="nav__mobile-link">iPad</a></li>
+            <li><a href="#" class="nav__mobile-link">Watch</a></li>
+            <li><a href="#" class="nav__mobile-link">AirPods</a></li>
+            <li><a href="#" class="nav__mobile-link">TV &amp; Home</a></li>
+            <li><a href="#" class="nav__mobile-link">Only on Apple</a></li>
+            <li><a href="#" class="nav__mobile-link">Accessories</a></li>
+            <li><a href="#" class="nav__mobile-link">Support</a></li>
+          </ul>
+        </div>
+
       </nav>
     </header>
 

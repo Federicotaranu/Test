@@ -1,0 +1,314 @@
+/*
+ * nav.css — Apple-style sticky navigation bar
+ *
+ * States:
+ *   default          — transparent, dark text (page top on light sections)
+ *   .is-scrolled     — frosted-glass blur background + bottom border
+ *   .is-dark         — white text (nav over dark sections)
+ *   .menu-open       — mobile dropdown visible
+ */
+
+/* =============================================
+   Nav host element (#main-nav)
+   ============================================= */
+#main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  height: 44px;
+
+  /* Default: transparent */
+  background: transparent;
+  color: var(--color-text-primary);
+
+  /* Smooth transitions on ALL state changes */
+  transition:
+    background-color var(--transition-base),
+    backdrop-filter  var(--transition-base),
+    -webkit-backdrop-filter var(--transition-base),
+    border-color     var(--transition-base),
+    color            var(--transition-base),
+    box-shadow       var(--transition-base);
+
+  border-bottom: 1px solid transparent;
+}
+
+/* ── Scrolled state ── */
+#main-nav.is-scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ── Dark-section state (white text) ── */
+#main-nav.is-dark {
+  color: var(--color-white);
+}
+
+/* Dark + scrolled → dark frosted glass */
+#main-nav.is-scrolled.is-dark {
+  background: rgba(0, 0, 0, 0.75);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+/* =============================================
+   Inner flex container
+   ============================================= */
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 1024px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  gap: var(--space-4);
+}
+
+/* =============================================
+   Logo
+   ============================================= */
+.nav__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.nav__logo:hover {
+  opacity: 0.7;
+}
+
+.nav__logo-icon {
+  width: 14px;
+  height: 17px;
+  fill: currentColor;
+  display: block;
+}
+
+/* =============================================
+   Desktop nav links
+   ============================================= */
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav__link {
+  display: block;
+  padding: 0 var(--space-3);
+  font-size: var(--text-xs);   /* 11px — matches Apple's nav */
+  font-weight: var(--fw-regular);
+  color: inherit;
+  text-decoration: none;
+  letter-spacing: var(--ls-normal);
+  white-space: nowrap;
+  transition: opacity var(--transition-fast);
+  line-height: 44px;
+}
+
+.nav__link:hover {
+  opacity: 0.7;
+}
+
+/* =============================================
+   Action icons (search + bag)
+   ============================================= */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.nav__icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: opacity var(--transition-fast);
+  line-height: 1;
+}
+
+.nav__icon-btn:hover {
+  opacity: 0.7;
+}
+
+.nav__icon {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* =============================================
+   Hamburger button (hidden on desktop)
+   ============================================= */
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: var(--space-1);
+  width: 24px;
+  height: 24px;
+  gap: 5px;
+  transition: opacity var(--transition-fast);
+}
+
+.nav__hamburger:hover {
+  opacity: 0.7;
+}
+
+.nav__hamburger-bar {
+  display: block;
+  width: 17px;
+  height: 1px;
+  background: currentColor;
+  border-radius: 1px;
+  transform-origin: center;
+  transition:
+    transform var(--transition-base),
+    opacity   var(--transition-base),
+    width     var(--transition-base);
+}
+
+/* Hamburger → X animation when menu is open */
+#main-nav.menu-open .nav__hamburger-bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+#main-nav.menu-open .nav__hamburger-bar:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+#main-nav.menu-open .nav__hamburger-bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* =============================================
+   Mobile dropdown menu
+   ============================================= */
+.nav__mobile-menu {
+  position: absolute;
+  top: 44px;        /* flush below the 44px nav bar */
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  /* Hidden by default */
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+
+  transition:
+    max-height  var(--transition-base),
+    opacity     var(--transition-base),
+    visibility  var(--transition-base);
+}
+
+/* Open state */
+#main-nav.menu-open .nav__mobile-menu {
+  max-height: 520px;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Dark nav mobile menu */
+#main-nav.is-dark .nav__mobile-menu {
+  background: rgba(29, 29, 31, 0.97);
+}
+
+.nav__mobile-links {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-4) 0;
+}
+
+.nav__mobile-link {
+  display: block;
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-md);   /* 16px — comfortable touch target */
+  font-weight: var(--fw-regular);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  transition: background-color var(--transition-fast);
+}
+
+.nav__mobile-link:last-child {
+  border-bottom: none;
+}
+
+.nav__mobile-link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Dark state mobile links */
+#main-nav.is-dark .nav__mobile-link {
+  color: var(--color-white);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+#main-nav.is-dark .nav__mobile-link:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* =============================================
+   Responsive — hide/show elements
+   ============================================= */
+
+/* Tablet & below: collapse desktop links, show hamburger */
+@media (max-width: 900px) {
+  .nav__links {
+    display: none;
+  }
+
+  .nav__hamburger {
+    display: flex;
+  }
+}
+
+/* Mobile: tighter icon spacing */
+@media (max-width: 767px) {
+  .nav__inner {
+    padding-inline: var(--space-5);
+  }
+}
+
+/* =============================================
+   Reduced-motion overrides
+   ============================================= */
+@media (prefers-reduced-motion: reduce) {
+  #main-nav,
+  #main-nav *,
+  .nav__mobile-menu {
+    transition: none !important;
+    animation: none !important;
+  }
+}
