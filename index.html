@@ -13,7 +13,7 @@
 
     <!-- Component styles (added by later beads) -->
     <!-- <link rel="stylesheet" href="styles/nav.css" /> -->
-    <!-- <link rel="stylesheet" href="styles/hero.css" /> -->
+    <link rel="stylesheet" href="styles/hero.css" />
     <!-- <link rel="stylesheet" href="styles/products.css" /> -->
     <!-- <link rel="stylesheet" href="styles/features.css" /> -->
     <!-- <link rel="stylesheet" href="styles/footer.css" /> -->
@@ -36,7 +36,24 @@
 
       <!-- Hero Section -->
       <section id="hero" aria-labelledby="hero-headline">
-        <!-- Populated by hero component -->
+        <!-- Content -->
+        <div class="hero__content">
+          <h1 id="hero-headline" class="hero__headline">iPhone 16 Pro.</h1>
+          <p class="hero__subheadline">Hello, Apple Intelligence.</p>
+          <div class="hero__cta-group">
+            <a href="#" class="btn btn--ghost">Learn more</a>
+            <a href="#" class="btn btn--primary">Buy</a>
+          </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="hero__scroll-indicator" aria-hidden="true">
+          <div class="hero__scroll-indicator-inner">
+            <span class="hero__scroll-label">Scroll</span>
+            <div class="hero__scroll-line"></div>
+          </div>
+          <span class="hero__scroll-arrow"></span>
+        </div>
       </section>
 
       <!-- Product Showcase -->

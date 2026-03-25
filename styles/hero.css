@@ -1,0 +1,366 @@
+/*
+ * Hero Section — Apple-style animated hero
+ *
+ * Features:
+ *  - Full-viewport animated gradient background (purple/blue tones)
+ *  - Staggered fade-up entrance: headline → subheadline → CTAs
+ *  - Animated scroll indicator at the bottom
+ *  - Respects prefers-reduced-motion
+ */
+
+/* =============================================
+   Background gradient animation
+   ============================================= */
+
+@keyframes heroBgShift {
+  0%   {
+    background-position: 0% 50%;
+    background-size: 220% 220%;
+  }
+  25% {
+    background-position: 50% 0%;
+    background-size: 240% 240%;
+  }
+  50%  {
+    background-position: 100% 50%;
+    background-size: 220% 220%;
+  }
+  75% {
+    background-position: 50% 100%;
+    background-size: 240% 240%;
+  }
+  100% {
+    background-position: 0% 50%;
+    background-size: 220% 220%;
+  }
+}
+
+@keyframes heroRadialPulse {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.08);
+  }
+}
+
+/* Scroll indicator arrow bounce */
+@keyframes scrollArrowBounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+    opacity: 0.6;
+  }
+}
+
+/* Dot pulse for alternate scroll indicator */
+@keyframes scrollDotPulse {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  50%       { opacity: 0.4; transform: scaleY(0.6); }
+}
+
+/* =============================================
+   Hero section wrapper
+   ============================================= */
+
+#hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #000;
+  /* Layered gradient: radial glow + animated linear sweep */
+  background-image:
+    radial-gradient(
+      ellipse 80% 60% at 50% 40%,
+      rgba(120, 60, 220, 0.45) 0%,
+      rgba(30, 60, 180, 0.30) 35%,
+      rgba(0, 20, 80, 0.20) 65%,
+      transparent 100%
+    ),
+    linear-gradient(
+      135deg,
+      #0d0020 0%,
+      #06001a 20%,
+      #001050 40%,
+      #0a0040 60%,
+      #150030 80%,
+      #000010 100%
+    );
+  background-size: 220% 220%;
+  animation: heroBgShift 16s ease infinite;
+  padding-bottom: 80px; /* space for scroll indicator */
+}
+
+/* Radial glow layer — pseudo-element for the central purple/blue bloom */
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 45%,
+    rgba(100, 40, 200, 0.50) 0%,
+    rgba(40,  80, 200, 0.30) 40%,
+    transparent 72%
+  );
+  animation: heroRadialPulse 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle noise texture overlay (pure CSS, no image needed) */
+#hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =============================================
+   Hero content container
+   ============================================= */
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: var(--space-6);
+  max-width: var(--max-width-content);
+  width: 100%;
+  margin-inline: auto;
+  gap: var(--space-6);
+}
+
+/* =============================================
+   Headline
+   ============================================= */
+
+.hero__headline {
+  font-size: clamp(3rem, 8vw, 4.5rem); /* 48px–72px */
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+  color: var(--color-white);
+  margin: 0;
+
+  /* Entrance animation: fade up 0.8s ease-out */
+  opacity: 0;
+  transform: translateY(32px);
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+/* =============================================
+   Subheadline
+   ============================================= */
+
+.hero__subheadline {
+  font-size: clamp(1.125rem, 3vw, 1.75rem); /* 18px–28px */
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-snug);
+  color: rgba(245, 245, 247, 0.75);
+  margin: 0;
+
+  /* Entrance: fades in 0.3s after headline starts (delay = 0.1 + 0.8 + 0.3 - overlap) */
+  opacity: 0;
+  animation: fadeIn 0.7s ease 0.9s forwards;
+}
+
+/* =============================================
+   CTA group
+   ============================================= */
+
+.hero__cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--space-2);
+
+  /* Entrance: fades in 0.3s after subheadline */
+  opacity: 0;
+  animation: fadeIn 0.7s ease 1.3s forwards;
+}
+
+/* Override ghost button colors for dark hero */
+.hero__cta-group .btn--ghost {
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.hero__cta-group .btn--ghost:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: var(--color-white);
+}
+
+/* Ensure primary button looks crisp on dark bg */
+.hero__cta-group .btn--primary {
+  box-shadow: 0 0 24px rgba(0, 113, 227, 0.40);
+}
+
+.hero__cta-group .btn--primary:hover {
+  box-shadow: 0 0 32px rgba(0, 113, 227, 0.60);
+}
+
+/* =============================================
+   Scroll indicator
+   ============================================= */
+
+.hero__scroll-indicator {
+  position: absolute;
+  bottom: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+
+  /* Fade in after CTAs */
+  opacity: 0;
+  animation: fadeIn 0.6s ease 1.8s forwards;
+}
+
+.hero__scroll-indicator:hover .hero__scroll-arrow {
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.hero__scroll-label {
+  font-size: var(--text-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  user-select: none;
+}
+
+/* Chevron arrow */
+.hero__scroll-arrow {
+  width: 28px;
+  height: 28px;
+  border-right: 2px solid rgba(255, 255, 255, 0.55);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.55);
+  transform: translateX(-50%) rotate(45deg);
+  position: absolute;
+  left: 50%;
+  top: calc(100% + var(--space-1));
+  animation: scrollArrowBounce 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite 2s;
+  border-radius: 2px;
+}
+
+/* The visible positioned wrapper for scroll indicator children */
+.hero__scroll-indicator-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 36px; /* room for the absolute arrow */
+}
+
+/* Scroll line */
+.hero__scroll-line {
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  animation: scrollDotPulse 1.8s ease-in-out infinite 2s;
+}
+
+/* =============================================
+   Reduced motion overrides
+   ============================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  #hero {
+    animation: none;
+    background-size: 100% 100%;
+  }
+
+  #hero::before {
+    animation: none;
+  }
+
+  .hero__headline,
+  .hero__subheadline,
+  .hero__cta-group,
+  .hero__scroll-indicator {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .hero__scroll-arrow {
+    animation: none;
+  }
+
+  .hero__scroll-line {
+    animation: none;
+  }
+}
+
+/* =============================================
+   Responsive
+   ============================================= */
+
+@media (max-width: 767px) {
+  .hero__headline {
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+    letter-spacing: -0.02em;
+  }
+
+  .hero__subheadline {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+  }
+
+  .hero__cta-group {
+    gap: var(--space-3);
+  }
+
+  .hero__cta-group .btn {
+    padding: 0.65em 1.25em;
+    font-size: var(--text-base);
+  }
+
+  .hero__scroll-indicator {
+    bottom: var(--space-6);
+  }
+}
+
+@media (max-width: 479px) {
+  .hero__headline {
+    font-size: clamp(2rem, 11vw, 3rem);
+  }
+
+  .hero__cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero__cta-group .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}
