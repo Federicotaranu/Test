@@ -1,0 +1,253 @@
+/*
+ * Apple-Style Animation Keyframes & Utility Classes
+ *
+ * Usage:
+ *   Apply a utility class directly:  class="fade-in"
+ *   Or reference a keyframe in CSS:  animation: fadeIn 0.6s ease forwards;
+ *
+ * All utilities respect prefers-reduced-motion (disabled via reset.css).
+ */
+
+/* =============================================
+   Keyframes
+   ============================================= */
+
+/* --- Fade --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* --- Fade + translate vertical --- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Fade + translate horizontal --- */
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Scale --- */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+}
+
+/* --- Gentle float (continuous loop) --- */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* --- Pulse (scale heartbeat) --- */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.04); }
+}
+
+/* --- Shimmer (loading skeleton) --- */
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+/* --- Spin --- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* --- Bounce (scroll indicator arrow) --- */
+@keyframes bounceY {
+  0%, 100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(8px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/* --- Gradient shift (animated hero background) --- */
+@keyframes gradientShift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+/* --- Blur in --- */
+@keyframes blurIn {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* =============================================
+   Utility animation classes
+   Apply directly to elements for one-shot animations.
+   Default duration / easing can be overridden with
+   custom properties on the element.
+   ============================================= */
+
+/* Shared defaults */
+[class*="anim-"] {
+  animation-fill-mode: both;
+  animation-duration: var(--anim-duration, 0.6s);
+  animation-timing-function: var(--anim-easing, ease);
+  animation-delay: var(--anim-delay, 0s);
+}
+
+.anim-fade-in    { animation-name: fadeIn;    }
+.anim-fade-out   { animation-name: fadeOut;   }
+.anim-fade-up    { animation-name: fadeUp;    }
+.anim-fade-down  { animation-name: fadeDown;  }
+.anim-slide-left  { animation-name: slideLeft;  }
+.anim-slide-right { animation-name: slideRight; }
+.anim-scale-in   { animation-name: scaleIn;   }
+.anim-scale-out  { animation-name: scaleOut;  }
+.anim-blur-in    { animation-name: blurIn;    }
+
+/* Continuous / looping */
+.anim-float {
+  animation-name: float;
+  animation-duration: var(--anim-duration, 3s);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.anim-pulse {
+  animation-name: pulse;
+  animation-duration: var(--anim-duration, 2s);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.anim-spin {
+  animation-name: spin;
+  animation-duration: var(--anim-duration, 1s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.anim-bounce-y {
+  animation-name: bounceY;
+  animation-duration: var(--anim-duration, 1.2s);
+  animation-iteration-count: infinite;
+}
+
+/* =============================================
+   Delay helpers (compose with anim-* classes)
+   ============================================= */
+.delay-100  { --anim-delay: 0.1s;  }
+.delay-200  { --anim-delay: 0.2s;  }
+.delay-300  { --anim-delay: 0.3s;  }
+.delay-400  { --anim-delay: 0.4s;  }
+.delay-500  { --anim-delay: 0.5s;  }
+.delay-600  { --anim-delay: 0.6s;  }
+.delay-700  { --anim-delay: 0.7s;  }
+.delay-800  { --anim-delay: 0.8s;  }
+.delay-1000 { --anim-delay: 1.0s;  }
+.delay-1200 { --anim-delay: 1.2s;  }
+
+/* =============================================
+   Duration helpers
+   ============================================= */
+.duration-fast   { --anim-duration: 0.3s; }
+.duration-base   { --anim-duration: 0.6s; }
+.duration-slow   { --anim-duration: 1.0s; }
+.duration-slower { --anim-duration: 1.4s; }
+
+/* =============================================
+   Easing helpers
+   ============================================= */
+.ease-out-expo {
+  --anim-easing: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ease-out-back {
+  --anim-easing: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ease-in-out-circ {
+  --anim-easing: cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+/* =============================================
+   Shimmer skeleton loader
+   ============================================= */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-gray) 25%,
+    #e8e8ed            50%,
+    var(--color-bg-gray) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
